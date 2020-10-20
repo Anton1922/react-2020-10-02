@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Restaurant from '../restaurant';
 import Tabs from '../tabs';
+import { tabsSelector } from '../../redux/selectors';
 
-const Restaurants = ({ restaurants }) => {
-  const tabs = restaurants.map((restaurant) => ({
+const Restaurants = ({ tabs }) => {
+  tabs = tabs.map((restaurant) => ({
     title: restaurant.name,
     content: <Restaurant restaurant={restaurant} />,
   }));
@@ -22,5 +23,5 @@ Restaurants.propTypes = {
 };
 
 export default connect((state) => ({
-  restaurants: state.restaurants,
+  tabs: tabsSelector(state),
 }))(Restaurants);

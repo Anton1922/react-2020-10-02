@@ -1,22 +1,31 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Menu from '../menu';
 import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
 
-const Restaurant = ({ restaurant }) => {
-  const { name, menu, reviews } = restaurant;
+const Restaurant = ({ restaurant, reviews }) => {
+  const { name, menu } = restaurant;
+
+  const restaurantReviews = restaurant.reviews.map((review) => reviews[review]);
 
   const averageRating = useMemo(() => {
-    const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
-    return Math.round(total / reviews.length);
-  }, [reviews]);
+    const total = restaurantReviews.reduce(
+      (acc, { rating }) => acc + rating,
+      0
+    );
+    return Math.round(total / restaurantReviews.length);
+  }, [restaurantReviews]);
 
   const tabs = [
     { title: 'Menu', content: <Menu menu={menu} /> },
-    { title: 'Reviews', content: <Reviews reviews={reviews} /> },
+    {
+      title: 'Reviews',
+      content: <Reviews restaurantReviews={restaurantReviews} />,
+    },
   ];
 
   return (
@@ -41,4 +50,7 @@ Restaurant.propTypes = {
   }).isRequired,
 };
 
-export default Restaurant;
+export default connect((state) => ({
+  reviews: state.reviews,
+}))(Restaurant);
+/*export default Restaurant;*/

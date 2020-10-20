@@ -10,7 +10,7 @@ const Tabs = ({ tabs }) => {
   const { content } = tabs[activeTab];
 
   return (
-    <>
+    <div>
       <div className={styles.tabs}>
         {tabs.map(({ title }, index) => (
           <span
@@ -23,7 +23,7 @@ const Tabs = ({ tabs }) => {
         ))}
       </div>
       {content}
-    </>
+    </div>
   );
 };
 
